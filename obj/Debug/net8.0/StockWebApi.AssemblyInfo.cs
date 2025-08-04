@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("StockWebApi")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+6bae7dc1944a620b78680e56c8410b0589542d82")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0a3ad22942a2a66190e86b7e1e66d9199b705dea")]
 [assembly: System.Reflection.AssemblyProductAttribute("StockWebApi")]
 [assembly: System.Reflection.AssemblyTitleAttribute("StockWebApi")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

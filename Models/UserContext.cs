@@ -1,10 +1,15 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using StockWebApi.Models.UserData;
 
 namespace StockWebApi.Models
 {
     public class UserContext : DbContext
     {
+        public UserContext()
+        {
+
+        }
 
         public DbSet<UserBaseInfoData> UserBaseInfoData { get; set; }
 
@@ -23,12 +28,18 @@ namespace StockWebApi.Models
             modelBuilder.Entity<UserBaseInfoData>().HasKey(e => e.Id);
 
             //接下來就是幫有特殊需求的欄位加上設定
+            //HasMaxLength 若不設定 string 部分就會是MAX
             modelBuilder.Entity<UserBaseInfoData>(entity => 
-            { 
-                //entity.Property(e => e.CreatedTime).HasDefaultValue
+            {
+                entity.Property(e => e.UserName).HasMaxLength(50);
+                entity.Property(e => e.PasswordSalt).HasMaxLength(250);
+                entity.Property(e => e.PasswordHash).HasMaxLength(250);
+                entity.Property(e => e.Email).HasMaxLength(250);
+                //這邊需要注意 如果是要取SQL東西 需要用HasDefaultValueSql
+                entity.Property(e => e.CreatedTime).HasDefaultValueSql("GETDATE()");
+                entity.Property(e => e.UpdateTime).HasDefaultValueSql("GETDATE()");
+                entity.Property(e => e.LastLoginTime).HasDefaultValueSql("GETDATE()");
             });
-
-
         }
     }
 }

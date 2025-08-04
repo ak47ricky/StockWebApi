@@ -14,6 +14,8 @@ var app = builder.Build();
 builder.Services.AddDbContext<UserContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
 
+builder.Services.AddHttpContextAccessor();
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
