@@ -2,7 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using StockWebApi.Models.UserData;
 
-namespace StockWebApi.Models
+namespace StockWebApi.Models.Context
 {
     public class UserContext : DbContext
     {
@@ -29,7 +29,7 @@ namespace StockWebApi.Models
 
             //接下來就是幫有特殊需求的欄位加上設定
             //HasMaxLength 若不設定 string 部分就會是MAX
-            modelBuilder.Entity<UserBaseInfoData>(entity => 
+            modelBuilder.Entity<UserBaseInfoData>(entity =>
             {
                 entity.Property(e => e.UserName).HasMaxLength(50);
                 entity.Property(e => e.PasswordSalt).HasMaxLength(250);

@@ -12,8 +12,8 @@ using StockWebApi.Models.Context;
 namespace StockWebApi.Migrations
 {
     [DbContext(typeof(UserContext))]
-    [Migration("20250804134510_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20250805133032_Update0805")]
+    partial class Update0805
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -32,6 +32,9 @@ namespace StockWebApi.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Account")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("CreatedTime")
                         .ValueGeneratedOnAdd()

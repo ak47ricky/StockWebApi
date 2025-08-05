@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
-using StockWebApi.Models;
+using StockWebApi.Models.Context;
+using StockWebApi.Repository;
 using StockWebApi.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,9 @@ var app = builder.Build();
 builder.Services.AddDbContext<UserContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
 
-builder.Services.AddScoped<UserInfoService>();
+builder.Services.AddScoped<UserRepository>();
+
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddHttpContextAccessor();
 
