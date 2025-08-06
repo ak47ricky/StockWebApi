@@ -13,9 +13,9 @@ namespace StockWebApi.Services
             m_userRepository = userRepository;
         }
 
-        public CreateUserStatus CreateUser(ReqCreateUser createUserData)
+        public async Task<CreateUserStatus> CreateUser(ReqCreateUser createUserData)
         {
-            return m_userRepository.CreateUser(createUserData);
+            return await m_userRepository.CreateUser(createUserData);
         }
     }
 }

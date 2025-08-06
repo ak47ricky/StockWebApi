@@ -9,7 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
 
-var app = builder.Build();
+
 
 
 //µù¥Ucontext
@@ -21,6 +21,8 @@ builder.Services.AddScoped<UserRepository>();
 builder.Services.AddScoped<UserService>();
 
 builder.Services.AddHttpContextAccessor();
+
+var app = builder.Build();
 
 app.UseHttpsRedirection();
 

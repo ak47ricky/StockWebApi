@@ -31,6 +31,7 @@ namespace StockWebApi.Models.Context
             //HasMaxLength 若不設定 string 部分就會是MAX
             modelBuilder.Entity<UserBaseInfoData>(entity =>
             {
+                entity.Property(e => e.Id).UseIdentityColumn();
                 entity.Property(e => e.UserName).HasMaxLength(50);
                 entity.Property(e => e.PasswordSalt).HasMaxLength(250);
                 entity.Property(e => e.PasswordHash).HasMaxLength(250);
