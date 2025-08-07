@@ -57,5 +57,37 @@ namespace StockWebApi.Repository
 
             return CreateUserStatus.Success;
         }
+
+        public async Task<UpdateUserStatus> UpdateUser(ReqUpdateUser updateUserData)
+        {
+            if (string.IsNullOrEmpty(updateUserData.Account) || string.IsNullOrEmpty(updateUserData.Password))
+            {
+                return UpdateUserStatus.DataFail;
+            }
+
+            var result = (from userData in m_userContext.UserBaseInfoData
+                          where userData.Account == updateUserData.Account
+                          select userData).FirstOrDefault();
+
+            if (result == null)
+            {
+                return UpdateUserStatus.NotExistUsers;
+            }
+
+            var slat = result.PasswordSalt;
+
+            var passwordHash = Sha256CreateHash.GetHashCode(updateUserData.Password, slat);
+
+            if(result.PasswordHash != passwordHash)
+            {
+                return UpdateUserStatus.PasswordFail;
+            }
+
+            result.Email = updateUserData.Mail;
+
+            await m_userContext.SaveChangesAsync();
+
+            return UpdateUserStatus.Success;
+        }
     }
 }

@@ -30,6 +30,25 @@ namespace StockWebApi.Controllers
                 case Models.Request.Define.CreateUserStatus.Success:
                     return Created();
             }
+
+            return StatusCode(500);
+        }
+
+        public async Task<IActionResult> UpdateUser([FromBody] ReqUpdateUser reqUpdateUser)
+        {
+            var result = await m_userService.UpdateUser(reqUpdateUser);
+            switch (result)
+            {
+                case Models.Request.Define.UpdateUserStatus.DataFail:
+                    return BadRequest("有資料為空");
+                case Models.Request.Define.UpdateUserStatus.NotExistUsers:
+                    return NotFound();
+                case Models.Request.Define.UpdateUserStatus.PasswordFail:
+                    return Unauthorized();
+                case Models.Request.Define.UpdateUserStatus.Success:
+                    return Ok();
+            }
+
             return StatusCode(500);
         }
     }

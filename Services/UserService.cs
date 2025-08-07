@@ -17,5 +17,10 @@ namespace StockWebApi.Services
         {
             return await m_userRepository.CreateUser(createUserData);
         }
+
+        public async Task<UpdateUserStatus> UpdateUser(ReqUpdateUser updateUserData)
+        {
+            return await m_userRepository.UpdateUser(updateUserData);
+        }
     }
 }
