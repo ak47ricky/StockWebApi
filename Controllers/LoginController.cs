@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using StockWebApi.Models.Context;
+using StockWebApi.Models.Request.Login;
 using StockWebApi.Models.Response.Login;
+using StockWebApi.Repository;
 
 namespace StockWebApi.Controllers
 {
@@ -8,35 +10,29 @@ namespace StockWebApi.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private UserContext m_userContext;
+        private LoginRepository m_loginRepository;
 
-        public LoginController(UserContext userContext)
+        public LoginController(LoginRepository loginRepository)
         {
-            m_userContext = userContext;
+            m_loginRepository = loginRepository;
         }
 
-        public IActionResult Login(string username, string password)
+        public IActionResult Login(LoginPost loginPost)
         {
+            var loginResult = m_loginRepository.Login(loginPost);
+
             LoginResponse loginResponse = new LoginResponse();
 
-            if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+            loginResponse.ReturnCode = loginResult;
+
+            if (loginResult != LoginReturnCode.Success)
             {
-                loginResponse.ReturnCode = LoginReturnCode.ParmIsEmpty;
-
-                return BadRequest(loginResponse);
+                return BadRequest(loginResult);
             }
-
-            var result = (from a in m_userContext.UserBaseInfoData
-                          where username == a.UserName
-                          select a).SingleOrDefault();
-
-            if (result == null)
+            else
             {
-                loginResponse.ReturnCode = LoginReturnCode.AccountOrPasswardFail;
-
-                return BadRequest(loginResponse);
+                return Ok(loginResult);
             }
-
         }
     }
 }

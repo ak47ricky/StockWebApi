@@ -45,5 +45,10 @@ namespace StockWebApi.Repository
 
             return LoginReturnCode.Success;
         }
+
+        public string GetJwtKey()
+        {
+
+        }
     }
 }
