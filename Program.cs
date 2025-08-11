@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using StockWebApi.Controllers;
 using StockWebApi.Models.Context;
 using StockWebApi.Repository;
 using StockWebApi.Services;
@@ -12,8 +13,6 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
-
-
 
 
 //µù¥Ucontext
@@ -37,6 +36,10 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddScoped<UserRepository>();
 
 builder.Services.AddScoped<UserService>();
+
+builder.Services.AddScoped<LoginRepository>();
+
+builder.Services.AddScoped<LoginController>();
 
 builder.Services.AddHttpContextAccessor();
 

@@ -163,3 +163,4 @@ D:\Fork\StockWebApi\StockWebApi\obj\Debug\net8.0\StockWebApi.pdb
 D:\Fork\StockWebApi\StockWebApi\obj\Debug\net8.0\StockWebApi.genruntimeconfig.cache
 D:\Fork\StockWebApi\StockWebApi\obj\Debug\net8.0\ref\StockWebApi.dll
 D:\Fork\StockWebApi\StockWebApi\bin\Debug\net8.0\AutoMapper.dll
+D:\Fork\StockWebApi\StockWebApi\bin\Debug\net8.0\Microsoft.AspNetCore.Authentication.JwtBearer.dll

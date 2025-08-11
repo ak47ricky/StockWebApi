@@ -1,7 +1,12 @@
-﻿using StockWebApi.CommonFun;
+﻿using Microsoft.IdentityModel.Tokens;
+using StockWebApi.CommonFun;
 using StockWebApi.Models.Context;
 using StockWebApi.Models.Request.Login;
 using StockWebApi.Models.Response.Login;
+using StockWebApi.Models.UserData;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
 
 namespace StockWebApi.Repository
 {
@@ -9,12 +14,16 @@ namespace StockWebApi.Repository
     {
         private UserContext m_userContext;
 
-        public LoginRepository(UserContext userContext)
+        private IConfiguration m_configuration;
+
+        public LoginRepository(UserContext userContext, IConfiguration configuration)
         {
             m_userContext = userContext;
+
+            m_configuration = configuration;
         }
 
-        public LoginReturnCode Login(LoginPost loginPost)
+        public LoginResponse Login(LoginPost loginPost)
         {
             LoginResponse loginResponse = new LoginResponse();
 
@@ -22,33 +31,64 @@ namespace StockWebApi.Repository
             {
                 loginResponse.ReturnCode = LoginReturnCode.ParmIsEmpty;
 
-                return LoginReturnCode.ParmIsEmpty;
+                return loginResponse;
             }
 
-            var reuslt = (from a in m_userContext.UserBaseInfoData
+            var result = (from a in m_userContext.UserBaseInfoData
                           where loginPost.Account == a.Account
                           select a).SingleOrDefault();
 
-            if (reuslt == null)
+            if (result == null)
             {
-                return LoginReturnCode.AccountOrPasswardFail;
+                loginResponse.ReturnCode = LoginReturnCode.AccountOrPasswardFail;
+
+                return loginResponse;
             }
 
-            var passWordSalt = reuslt.PasswordSalt;
+            var passWordSalt = result.PasswordSalt;
 
             var passWordHash = Sha256CreateHash.GetHashCode(loginPost.Password, passWordSalt);
 
-            if (passWordHash != reuslt.PasswordHash)
+            if (passWordHash != result.PasswordHash)
             {
-                return LoginReturnCode.AccountOrPasswardFail;
+                loginResponse.ReturnCode = LoginReturnCode.AccountOrPasswardFail;
+
+                return loginResponse;
             }
 
-            return LoginReturnCode.Success;
+            loginResponse.Account = loginPost.Account;
+
+            loginResponse.UserPermissionType = (Models.Request.Define.UserPermissionType)result.Permissions;
+
+            loginResponse.Key = GetJwtKey(result);
+
+            loginResponse.ReturnCode = LoginReturnCode.Success;
+
+            return loginResponse;
         }
 
-        public string GetJwtKey()
+        public string GetJwtKey(UserBaseInfoData userBaseInfoData)
         {
+            //金鑰
+            var key =  new SymmetricSecurityKey(Encoding.UTF8.GetBytes(m_configuration["JWT:Key"]));
 
+            var cred = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim("Account", userBaseInfoData.Account),
+                new Claim("Permissions" , userBaseInfoData.Permissions.ToString())
+            };
+
+            var token = new JwtSecurityToken(
+                issuer: m_configuration["JWT:Key"],
+                audience: m_configuration["JWT:Audience"],
+                claims: claims,
+                expires: DateTime.Now.AddSeconds(60),
+                signingCredentials: cred
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
         }
     }
 }

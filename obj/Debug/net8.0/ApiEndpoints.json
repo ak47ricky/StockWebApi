@@ -1,5 +1,37 @@
 [
   {
+    "ContainingType": "StockWebApi.Controllers.LoginController",
+    "Method": "Login",
+    "RelativePath": "api/Login/User/Login",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "loginPost",
+        "Type": "StockWebApi.Models.Request.Login.LoginPost",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockWebApi.Controllers.UserInfoController",
+    "Method": "UpdateUser",
+    "RelativePath": "api/UserInfo",
+    "HttpMethod": "",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "reqUpdateUser",
+        "Type": "StockWebApi.Models.Request.User.ReqUpdateUser",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "StockWebApi.Controllers.UserInfoController",
     "Method": "CreateUser",
     "RelativePath": "api/UserInfo/User/Create",

@@ -17,15 +17,12 @@ namespace StockWebApi.Controllers
             m_loginRepository = loginRepository;
         }
 
+        [HttpPost("User/Login")]
         public IActionResult Login(LoginPost loginPost)
         {
             var loginResult = m_loginRepository.Login(loginPost);
 
-            LoginResponse loginResponse = new LoginResponse();
-
-            loginResponse.ReturnCode = loginResult;
-
-            if (loginResult != LoginReturnCode.Success)
+            if (loginResult.ReturnCode != LoginReturnCode.Success)
             {
                 return BadRequest(loginResult);
             }
