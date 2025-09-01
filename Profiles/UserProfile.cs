@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using StockWebApi.Models.UserData;
+using StockWebApi.Models.Data.UserData;
 
 namespace StockWebApi.Profiles
 {

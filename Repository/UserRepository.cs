@@ -1,8 +1,8 @@
 ﻿using StockWebApi.CommonFun;
-using StockWebApi.Models.Context;
+using StockWebApi.Models.Context.User;
+using StockWebApi.Models.Data.UserData;
 using StockWebApi.Models.Request.Define;
 using StockWebApi.Models.Request.User;
-using StockWebApi.Models.UserData;
 
 namespace StockWebApi.Repository
 {

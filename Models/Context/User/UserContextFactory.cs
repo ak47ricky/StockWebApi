@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 
-namespace StockWebApi.Models.Context
+namespace StockWebApi.Models.Context.User
 {
     public class UserContextFactory : IDesignTimeDbContextFactory<UserContext>
     {

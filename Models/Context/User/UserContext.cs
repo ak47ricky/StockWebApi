@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using StockWebApi.Models.UserData;
+using StockWebApi.Models.Data.UserData;
 
-namespace StockWebApi.Models.Context
+namespace StockWebApi.Models.Context.User
 {
     public class UserContext : DbContext
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.IdentityModel.Tokens;
 using StockWebApi.CommonFun;
-using StockWebApi.Models.Context;
+using StockWebApi.Models.Context.User;
+using StockWebApi.Models.Data.UserData;
 using StockWebApi.Models.Request.Login;
 using StockWebApi.Models.Response.Login;
-using StockWebApi.Models.UserData;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;

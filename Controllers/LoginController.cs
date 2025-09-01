@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using StockWebApi.Models.Context;
 using StockWebApi.Models.Request.Login;
 using StockWebApi.Models.Response.Login;
 using StockWebApi.Repository;
@@ -30,6 +29,12 @@ namespace StockWebApi.Controllers
             {
                 return Ok(loginResult);
             }
+        }
+
+        [HttpPost("User/Logout")]
+        public IActionResult Logout() 
+        {
+            return Ok();
         }
     }
 }

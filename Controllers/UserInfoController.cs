@@ -46,7 +46,7 @@ namespace StockWebApi.Controllers
                 case Models.Request.Define.UpdateUserStatus.PasswordFail:
                     return Unauthorized();
                 case Models.Request.Define.UpdateUserStatus.Success:
-                    return Ok();
+                    return Ok(new { message = "註冊成功" });
             }
 
             return StatusCode(500);

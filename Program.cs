@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using StockWebApi.Controllers;
-using StockWebApi.Models.Context;
+using StockWebApi.Models.Context.User;
 using StockWebApi.Repository;
 using StockWebApi.Services;
 using System.Text;
@@ -13,6 +13,17 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+
+// 1. ³]©w CORS policy
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowReact", policy =>
+    {
+        policy.WithOrigins("http://localhost:5173", "http://localhost:5174") // React dev server
+              .AllowAnyHeader()
+              .AllowAnyMethod();
+    });
+});
 
 
 //µù¥Ucontext
@@ -44,6 +55,8 @@ builder.Services.AddScoped<LoginController>();
 builder.Services.AddHttpContextAccessor();
 
 var app = builder.Build();
+
+app.UseCors("AllowReact");
 
 app.UseHttpsRedirection();
 
