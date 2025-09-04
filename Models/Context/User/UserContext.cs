@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
 using StockWebApi.Models.Data.UserData;
 
 namespace StockWebApi.Models.Context.User

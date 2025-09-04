@@ -1,4 +1,5 @@
-﻿using StockWebApi.CommonFun;
+﻿using Microsoft.EntityFrameworkCore;
+using StockWebApi.CommonFun;
 using StockWebApi.Models.Context.User;
 using StockWebApi.Models.Data.UserData;
 using StockWebApi.Models.Request.Define;
@@ -10,9 +11,26 @@ namespace StockWebApi.Repository
     {
         private readonly UserContext m_userContext;
 
-        public UserRepository(UserContext userContext) 
+        public UserRepository(UserContext userContext)
         {
             m_userContext = userContext;
+        }
+
+        public async Task<UserBaseInfoDataDTO?> GetUserInfoDataDTO(string account)
+        {
+            var result = await m_userContext.UserBaseInfoData
+                        .Where(a => a.Account == account)
+                        .Select(a => new UserBaseInfoDataDTO
+                        {
+                            Account = a.Account,
+                            UserId = a.Id,
+                            UserName = a.UserName,
+                            Permissions = a.Permissions,
+                            Guid = a.Guid,
+                            
+                        }).FirstOrDefaultAsync();
+
+            return result;
         }
 
         public async Task<CreateUserStatus> CreateUser(ReqCreateUser data)

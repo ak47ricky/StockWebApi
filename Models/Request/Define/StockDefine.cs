@@ -27,4 +27,18 @@
 
         MAX
     }
+
+    public enum StockOrderReturnCode : byte
+    {
+        Success,
+        AccountNotExist,
+        StockCodeNotExist,
+        DataIsError,
+    }
+
+    public enum StockOrderType : byte
+    { 
+        Buyin,
+        Sell
+    }
 }

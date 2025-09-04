@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using StockWebApi.Controllers;
+using StockWebApi.Models.Context.Stock;
 using StockWebApi.Models.Context.User;
 using StockWebApi.Repository;
 using StockWebApi.Services;
@@ -28,6 +29,9 @@ builder.Services.AddCors(options =>
 
 //µù¥Ucontext
 builder.Services.AddDbContext<UserContext>(options =>
+options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
+
+builder.Services.AddDbContext<StockContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("WebDatabase")));
 
 //¨Ï¥ÎJWTÅçÃÒ

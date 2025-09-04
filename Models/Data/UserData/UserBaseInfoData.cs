@@ -1,4 +1,6 @@
-﻿namespace StockWebApi.Models.Data.UserData
+﻿using StockWebApi.Models.Data.StockData;
+
+namespace StockWebApi.Models.Data.UserData
 {
     public class UserBaseInfoData
     {
