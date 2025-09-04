@@ -54,7 +54,11 @@ builder.Services.AddScoped<UserService>();
 
 builder.Services.AddScoped<LoginRepository>();
 
-builder.Services.AddScoped<LoginController>();
+//builder.Services.AddScoped<LoginController>();
+
+builder.Services.AddScoped<StockRespository>();
+
+builder.Services.AddScoped<StockService>();
 
 builder.Services.AddHttpContextAccessor();
 
