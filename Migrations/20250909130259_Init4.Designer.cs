@@ -3,17 +3,20 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using StockWebApi.Models.Context.Stock;
 
 #nullable disable
 
-namespace StockWebApi.Migrations.Stock
+namespace StockWebApi.Migrations
 {
     [DbContext(typeof(StockContext))]
-    partial class StockContextModelSnapshot : ModelSnapshot
+    [Migration("20250909130259_Init4")]
+    partial class Init4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -56,7 +59,10 @@ namespace StockWebApi.Migrations.Stock
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<string>("Account")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("OrderStatus")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
@@ -76,42 +82,7 @@ namespace StockWebApi.Migrations.Stock
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("Account");
-
                     b.ToTable("StockOrder", (string)null);
-                });
-
-            modelBuilder.Entity("StockWebApi.Models.Data.UserData.AccountData", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("GuidId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AccountData");
-                });
-
-            modelBuilder.Entity("StockWebApi.Models.Data.StockData.StockOrderData", b =>
-                {
-                    b.HasOne("StockWebApi.Models.Data.UserData.AccountData", "AccountData")
-                        .WithMany()
-                        .HasForeignKey("Account")
-                        .HasPrincipalKey("Account");
-
-                    b.Navigation("AccountData");
                 });
 #pragma warning restore 612, 618
         }

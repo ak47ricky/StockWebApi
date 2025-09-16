@@ -28,6 +28,13 @@
         MAX
     }
 
+    public enum StockOrderStatus
+    {
+        Order,  //下單
+        Deal,   //成交
+        Cancel, //取消
+    }
+
     public enum StockOrderReturnCode : byte
     {
         Success,

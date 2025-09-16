@@ -5,24 +5,25 @@
 namespace StockWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Update0805 : Migration
+    public partial class Init4 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "Account",
-                table: "UserBaseInfoData",
-                type: "nvarchar(max)",
-                nullable: true);
+            migrationBuilder.AddColumn<byte>(
+                name: "OrderStatus",
+                table: "StockOrder",
+                type: "tinyint",
+                nullable: false,
+                defaultValue: (byte)0);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Account",
-                table: "UserBaseInfoData");
+                name: "OrderStatus",
+                table: "StockOrder");
         }
     }
 }

@@ -12,6 +12,8 @@ namespace StockWebApi.Models.Context.User
 
         public DbSet<UserBaseInfoData> UserBaseInfoData { get; set; }
 
+        public DbSet<AccountData> AccountData { get; set; }
+
         //加上這段 是用於在Progress註冊這個context
         public UserContext(DbContextOptions<UserContext> options) : base(options)
         {
@@ -23,11 +25,23 @@ namespace StockWebApi.Models.Context.User
         {
             base.OnModelCreating(modelBuilder);
 
+            CreateUserBaseInfo(modelBuilder);
+
+            CreateAccountData(modelBuilder);
+        }
+
+        private void CreateUserBaseInfo(ModelBuilder modelBuilder)
+        {
             //這邊是設定主鍵
             modelBuilder.Entity<UserBaseInfoData>().HasKey(e => e.Id);
 
             //接下來就是幫有特殊需求的欄位加上設定
             //HasMaxLength 若不設定 string 部分就會是MAX
+            modelBuilder.Entity<UserBaseInfoData>()
+                .HasOne(u => u.AccountData)
+                .WithOne(a => a.UserBaseInfoData)
+                .HasForeignKey<UserBaseInfoData>(u => u.AccountId);
+
             modelBuilder.Entity<UserBaseInfoData>(entity =>
             {
                 entity.Property(e => e.Id).UseIdentityColumn();
@@ -39,6 +53,16 @@ namespace StockWebApi.Models.Context.User
                 entity.Property(e => e.CreatedTime).HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.UpdateTime).HasDefaultValueSql("GETDATE()");
                 entity.Property(e => e.LastLoginTime).HasDefaultValueSql("GETDATE()");
+            });
+        }
+
+        private void CreateAccountData(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AccountData>().HasKey(entity => entity.Id);
+
+            modelBuilder.Entity<AccountData>(entity =>
+            {
+                entity.Property(a => a.Id).UseIdentityColumn();
             });
         }
     }

@@ -11,5 +11,7 @@
         public string? Account { get; set; }
 
         public int Permissions { get; set; }
+
+        public UserBaseInfoData? UserBaseInfoData { get; set; }
     }
 }

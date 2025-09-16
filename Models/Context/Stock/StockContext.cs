@@ -9,6 +9,10 @@ namespace StockWebApi.Models.Context.Stock
 
         public DbSet<StockOrderData> StockOrderData { get; set; }
 
+        public DbSet<StockLastUpdatePrice> StockLastUpdatePrice { get; set; }
+
+        public DbSet<StockTradesData> TradesData { get; set; }
+
         public StockContext()
         {
 
@@ -26,6 +30,18 @@ namespace StockWebApi.Models.Context.Stock
             StockOrderCreating(modelBuilder);
 
             StockBaseDataCreating(modelBuilder);
+
+            StockLastUpdatePriceCreating(modelBuilder);
+        }
+
+        private void StockTradesDataCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StockTradesData>(entity =>
+            {
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+            });
         }
 
         private void StockBaseDataCreating(ModelBuilder modelBuilder)
@@ -52,11 +68,6 @@ namespace StockWebApi.Models.Context.Stock
                 //設定自動增加
                 entity.Property(e => e.OrderId).ValueGeneratedOnAdd();
 
-                entity.HasOne(e => e.AccountData)
-                .WithMany()//如果需要雙向關聯 就設定在這邊
-                .HasForeignKey(e => e.Account)
-                .HasPrincipalKey(e => e.Account);
-
                 entity.Property(e => e.StockCode).IsRequired();
 
                 entity.Property(e => e.Quantity).IsRequired();
@@ -64,6 +75,24 @@ namespace StockWebApi.Models.Context.Stock
                 entity.Property(e => e.OrderTime).IsRequired();
 
                 entity.Property(e => e.OrderType).IsRequired();
+            });
+        }
+
+        private void StockLastUpdatePriceCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<StockLastUpdatePrice>(entity =>
+            {
+                entity.ToTable("StockLastUpdatePrice");
+
+                entity.HasKey(e => e.Id);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.StockCode).IsRequired();
+
+                entity.Property(e => e.Price).IsRequired();
+
+                entity.Property(e => e.LastUpdateTime).IsRequired();
             });
         }
 

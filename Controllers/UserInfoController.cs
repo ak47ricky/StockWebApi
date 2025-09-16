@@ -26,7 +26,7 @@ namespace StockWebApi.Controllers
                 case Models.Request.Define.CreateUserStatus.DataFail:
                     return BadRequest("有資料為空");
                 case Models.Request.Define.CreateUserStatus.ExistUsers:
-                    return Conflict();
+                    return Conflict("有重複帳號");
                 case Models.Request.Define.CreateUserStatus.Success:
                     return Created();
             }

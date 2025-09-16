@@ -16,6 +16,100 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "StockWebApi.Controllers.LoginController",
+    "Method": "Logout",
+    "RelativePath": "api/Login/User/Logout",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockWebApi.Controllers.StockController",
+    "Method": "StockOrder",
+    "RelativePath": "api/Stock/Order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "orderData",
+        "Type": "StockWebApi.Models.Request.Stock.ReqStockOrderData",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockWebApi.Controllers.StockController",
+    "Method": "DeleteOrder",
+    "RelativePath": "api/Stock/Order/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "StockWebApi.Controllers.StockController",
+    "Method": "GetStockOrderData",
+    "RelativePath": "api/Stock/OrderStockData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "account",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[StockWebApi.Models.Data.StockData.StockOrderDataDTO, StockWebApi, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "StockWebApi.Controllers.StockController",
+    "Method": "GetStockBaseData",
+    "RelativePath": "api/Stock/StockData",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "stockCode",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "StockWebApi.Models.Data.StockData.StockBaseDataDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
     "ContainingType": "StockWebApi.Controllers.UserInfoController",
     "Method": "UpdateUser",
     "RelativePath": "api/UserInfo",

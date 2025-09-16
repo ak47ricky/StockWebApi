@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using StockWebApi.Models.Data.StockData;
 using StockWebApi.Models.Request.Stock;
 using StockWebApi.Services;
@@ -45,6 +44,43 @@ namespace StockWebApi.Controllers
             {
                 return Ok(result);
             }
+        }
+
+        [HttpDelete("Order/{id:int}")]
+        public async Task<IActionResult> DeleteOrder(int id)
+        {
+            var result = await m_stockService.DeleteOrderData(id);
+
+            if (result != Models.Request.Define.StockOrderReturnCode.Success)
+            {
+                return NotFound();
+            }
+
+            return Ok();
+        }
+
+        [HttpGet("OrderStockData")]
+        public async Task<ActionResult<List<StockOrderDataDTO>>> GetStockOrderData(string account)
+        {
+            var result = await m_stockService.GetStockOrderDTO(account);
+
+            if (result.Item1 != Models.Request.Define.StockOrderReturnCode.Success)
+            {
+                return BadRequest(result.Item1);
+            }
+            
+            return Ok(result.Item2);
+        }
+
+        [HttpGet("StockPrice")]
+        public async Task<ActionResult<List<StockPriceDTO>>> GetStockPriceList()
+        {
+            var result = await m_stockService.GetStockPriceList();
+
+            if (result == null || result.Any() == false)
+                return NotFound();
+
+            return Ok(result);
         }
     }
 }

@@ -5,7 +5,7 @@
 namespace StockWebApi.Migrations
 {
     /// <inheritdoc />
-    public partial class _0806 : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

@@ -33,6 +33,16 @@ namespace StockWebApi.Repository
             return result;
         }
 
+        public async Task<int> GetAccountDataId(string account)
+        {
+            var result = await m_userContext.AccountData
+                        .Where(a => a.Account == account)
+                        .Select(a => a.Id)
+                        .FirstOrDefaultAsync();
+
+            return result;
+        }
+
         public async Task<CreateUserStatus> CreateUser(ReqCreateUser data)
         {
             var exist = (from userData in m_userContext.UserBaseInfoData
@@ -58,16 +68,32 @@ namespace StockWebApi.Repository
 
             var passwordHash = Sha256CreateHash.GetHashCode(data.Password, salt);
 
+            var guidId = Guid.NewGuid();
+
+            AccountData accountData = new AccountData()
+            { 
+                GuidId = guidId,
+
+                Account = data.Account,
+
+                UserName = data.UserName,
+
+                Permissions = 1
+            };
+
             UserBaseInfoData userBaseInfoData = new UserBaseInfoData()
             {
-                Guid = Guid.NewGuid(),
+                Guid = guidId,
                 UserName = data.UserName,
                 Account = data.Account,
                 PasswordHash = passwordHash,
                 PasswordSalt= salt,
                 Email = data.Mail,
-                Permissions = 1
+                Permissions = 1,
+                AccountData = accountData 
             };
+
+            await m_userContext.AddAsync(accountData);
 
             await m_userContext.AddAsync(userBaseInfoData);
 

@@ -6,9 +6,7 @@ namespace StockWebApi.Models.Data.StockData
     {
         public int OrderId { get; set; } //PK
 
-        public string? Account { get; set; } //FK
-
-        public AccountData? AccountData { get; set; }
+        public string? Account { get; set; }
 
         public string? StockCode { get; set; }
 
@@ -17,6 +15,8 @@ namespace StockWebApi.Models.Data.StockData
         public decimal Price { get; set; }
 
         public int Quantity { get; set; }
+
+        public byte OrderStatus { get; set; }
 
         public DateTime OrderTime { get; set; }
     }

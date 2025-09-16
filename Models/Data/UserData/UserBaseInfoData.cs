@@ -25,5 +25,9 @@ namespace StockWebApi.Models.Data.UserData
         public DateTime LastLoginTime { get; set; }
 
         public int Permissions { get; set; }
+
+        public int AccountId { get; set; }//FK
+
+        public AccountData? AccountData { get; set; }
     }
 }

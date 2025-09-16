@@ -12,8 +12,8 @@ namespace StockWebApi.Services
 
         private readonly UserRepository m_userRepository;
 
-        public StockService(StockRespository stockRespository, UserRepository userRepository) 
-        { 
+        public StockService(StockRespository stockRespository, UserRepository userRepository)
+        {
             m_stockRespository = stockRespository;
 
             m_userRepository = userRepository;
@@ -24,6 +24,14 @@ namespace StockWebApi.Services
             return await m_stockRespository.GetStockBaseDataDTO(stockCode);
         }
 
+        public async Task<StockOrderReturnCode> DeleteOrderData(int id)
+        {
+            if (await m_stockRespository.TryDeleteOrderData(id) == false)
+                return StockOrderReturnCode.DataIsError;
+
+            return StockOrderReturnCode.Success;
+        }
+
         public async Task<StockOrderReturnCode> StockOrder(ReqStockOrderData orderData)
         {
             if (CheckOrderData(orderData) == false)
@@ -31,7 +39,7 @@ namespace StockWebApi.Services
 
             var accountDto = await m_userRepository.GetUserInfoDataDTO(orderData.Account);
 
-            if (accountDto == null)
+            if (await CheckAccount(orderData.Account) == false)
             {
                 return StockOrderReturnCode.AccountNotExist;
             }
@@ -44,8 +52,6 @@ namespace StockWebApi.Services
             StockOrderData stockOrder = new StockOrderData();
 
             stockOrder.Account = orderData.Account;
-
-            stockOrder.AccountData = GetAccountData(accountDto);
 
             stockOrder.Quantity = orderData.Quantity;
 
@@ -62,15 +68,43 @@ namespace StockWebApi.Services
             return StockOrderReturnCode.Success;
         }
 
+        public async Task<(StockOrderReturnCode, List<StockOrderDataDTO>?)> GetStockOrderDTO(string account)
+        {
+            if (await CheckAccount(account) == false)
+            {
+                return (StockOrderReturnCode.AccountNotExist, null);
+            }
+
+            var result = m_stockRespository.GetStockOrderData(account);
+
+            if (result == null)
+            {
+                return (StockOrderReturnCode.DataIsError, null);
+            }
+
+            return (StockOrderReturnCode.Success, result.Result);
+        }
+
+        public async Task<List<StockPriceDTO>> GetStockPriceList()
+        {
+            return await m_stockRespository.GetStockPriceList();
+        }
+
         private AccountData GetAccountData(UserBaseInfoDataDTO dataDTO)
         {
             return new AccountData
             {
-                Id = dataDTO.UserId,
                 GuidId = dataDTO.Guid,
                 Account = dataDTO.Account,
                 UserName = dataDTO.UserName,
             };
+        }
+
+        private async Task<bool> CheckAccount(string account)
+        {
+            var result = await m_userRepository.GetUserInfoDataDTO(account);
+
+            return result != null;
         }
 
         private bool CheckOrderData(ReqStockOrderData orderData)

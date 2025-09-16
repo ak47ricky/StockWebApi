@@ -9,11 +9,11 @@ using StockWebApi.Models.Context.Stock;
 
 #nullable disable
 
-namespace StockWebApi.Migrations.Stock
+namespace StockWebApi.Migrations
 {
     [DbContext(typeof(StockContext))]
-    [Migration("20250903142836_InitStock")]
-    partial class InitStock
+    [Migration("20250916123004_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -50,6 +50,29 @@ namespace StockWebApi.Migrations.Stock
                     b.ToTable("StockBaseData", (string)null);
                 });
 
+            modelBuilder.Entity("StockWebApi.Models.Data.StockData.StockLastUpdatePrize", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("LastUpdateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<decimal>("Price")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<string>("StockCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("LastUpdatePrize");
+                });
+
             modelBuilder.Entity("StockWebApi.Models.Data.StockData.StockOrderData", b =>
                 {
                     b.Property<int>("OrderId")
@@ -59,7 +82,10 @@ namespace StockWebApi.Migrations.Stock
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderId"));
 
                     b.Property<string>("Account")
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte>("OrderStatus")
+                        .HasColumnType("tinyint");
 
                     b.Property<DateTime>("OrderTime")
                         .HasColumnType("datetime2");
@@ -79,12 +105,10 @@ namespace StockWebApi.Migrations.Stock
 
                     b.HasKey("OrderId");
 
-                    b.HasIndex("Account");
-
                     b.ToTable("StockOrder", (string)null);
                 });
 
-            modelBuilder.Entity("StockWebApi.Models.Data.UserData.AccountData", b =>
+            modelBuilder.Entity("StockWebApi.Models.Data.StockData.StockTradesData", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -92,29 +116,27 @@ namespace StockWebApi.Migrations.Stock
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("Account")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<Guid>("GuidId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserName")
+                    b.Property<string>("BuyinAccount")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("SellAccount")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StockCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("TradeAmount")
+                        .HasColumnType("int");
+
+                    b.Property<decimal>("TradePrice")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime>("TradeTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AccountData");
-                });
-
-            modelBuilder.Entity("StockWebApi.Models.Data.StockData.StockOrderData", b =>
-                {
-                    b.HasOne("StockWebApi.Models.Data.UserData.AccountData", "AccountData")
-                        .WithMany()
-                        .HasForeignKey("Account")
-                        .HasPrincipalKey("Account");
-
-                    b.Navigation("AccountData");
+                    b.ToTable("TradesData");
                 });
 #pragma warning restore 612, 618
         }
